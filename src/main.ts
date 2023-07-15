@@ -124,7 +124,6 @@ button = document.querySelector<HTMLButtonElement>("#button-default");
 if(!button) throw new Error("button not found");
 button.addEventListener("click",defaults);
 
-
 const bohdanExample = () => {
   (document.getElementById("string1") as HTMLInputElement).value = "bohdan";
   (document.getElementById("string2") as HTMLInputElement).value = "bo dan";
