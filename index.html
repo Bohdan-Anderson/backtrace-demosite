@@ -4,10 +4,51 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <link rel="stylesheet" href="https://unpkg.com/chota@latest">
+    <title>BackTracing of Minimum Edit Distance</title>
   </head>
   <body>
-    <div id="app"></div>
+    <main class="container">
+      <div class="row is-center">
+        <div class="col-12 col-8-md col-6-lg">
+          
+          <h1>BackTracing of Minimum Edit Distance</h1>
+          <p>
+            Using the <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance</a> algorithm to find the minimum edit distance between two strings. 
+          </p>
+          <p>
+            Cost of operations: <br>
+            <code>insertion</code> = 1 <br>
+            <code>deletion</code> = 1 <br>
+            <code>substitution</code> = 2 <br>
+          </p>
+          <p>
+            Following along this <a href="https://www.youtube.com/watch?v=V14ikwzaLds&list=PLaZQkZp6WhWyvdiP49JG-rjyTPck_hvEu&index=7">video</a> and the following 3 videos in the play list.
+          </p>
+          
+          <p>
+            <label for="string1">String 1</label>
+            <input type="text" id="string1" value="execution">
+          </p>
+
+          <p>
+            <label for="string2">String 2</label>
+            <input type="text" id="string2" value="intention">
+          </p>
+
+          <p>
+            <button id="generate">Generate</button>
+          </p>
+
+          <p>
+            <button id="button-default">Default example</button>
+            <button id="button-bohdan">Bohdan example</button>
+          </p>
+
+          <div id="table"></div>
+        </div>
+      </div>  
+    </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
