@@ -3,7 +3,7 @@ import './style.css'
 
 type MatrixCell = {value:number,reason:string[]};
 
-function minimumEditDistance(str1:string, str2:string): {minimumDistance: number, matrix: MatrixCell[][]}{
+function minimumEditDistance(str1:string, str2:string): {distance: number, matrix: MatrixCell[][]}{
 
   const m = str1.length;
   const n = str2.length;
@@ -49,14 +49,66 @@ function minimumEditDistance(str1:string, str2:string): {minimumDistance: number
   }
 
   // Get the minimum edit distance
-  const minimumDistance = matrix[m][n];
+  const distance = matrix[m][n];
 
   return {
-    minimumDistance,
+    distance,
     matrix,
   };
 }
 
+
+function maximumEditDistance(str1:string, str2:string): {distance: number, matrix: MatrixCell[][]}{
+  const m = str1.length;
+  const n = str2.length;
+
+  // Initialize the matrix
+  const matrix = Array(m + 1)
+    .fill(null)
+    .map(() => Array(n + 1).fill({value:0,reason:[]}));
+  
+  // Fill the matrix
+  for (let i = 0; i <= m; i++) {
+    for (let j = 0; j <= n; j++) {
+        
+        // basics
+        if (i === 0 && j === 0) {
+          matrix[i][j] = {value:0,reason:[]};
+        } else if (i === 0) {
+          matrix[i][j] = {value:0,reason:[]};
+        } else if (j === 0) {
+          matrix[i][j] = {value:0,reason:[]};
+        } else {
+          const reason = [];
+          // Is it a delete
+          const del = matrix[i][j - 1].value - 1;
+  
+          // Is it an insert
+          const ins = matrix[i - 1][j].value - 1;
+  
+          // Is it a replace
+          let rep = 0;
+          if(str1[i-1] === str2[j-1]){
+            rep = matrix[i - 1][j - 1].value + 1;
+            reason.push('↖︎');
+          } else {
+            rep = matrix[i - 1][j - 1].value - 1;
+          }
+  
+          // matrix[i][j] = Math.min(del, ins, rep);
+          matrix[i][j] = {value:Math.max(del, ins, rep),reason};
+        }
+    }
+  }
+
+  // Get the maximum edit distance
+  const distance = matrix[m][n];
+
+  return {
+    distance,
+    matrix,
+  };
+};
 
 const createTable = (matrix: MatrixCell[][],str1:string, str2:string) => {
   // matrix to table
@@ -101,18 +153,25 @@ const generate = () => {
   // Example usage
   const str1 =(document.getElementById("string1") as HTMLInputElement).value || "execution";
   const str2 = (document.getElementById("string2") as HTMLInputElement).value || "intention";
-
   const result = minimumEditDistance(str1, str2);
-  console.log("Minimum Edit Distance:", result.minimumDistance);
-  console.log("Matrix:", result.matrix);
-
-
   createTable(result.matrix,"#"+str1,"#"+str2);
 }
 
 let button = document.querySelector<HTMLButtonElement>("#generate");
 if(!button) throw new Error("button not found");
 button.addEventListener("click",generate);
+
+const generateMax = () => {
+  // Example usage
+  const str1 =(document.getElementById("string1") as HTMLInputElement).value || "execution";
+  const str2 = (document.getElementById("string2") as HTMLInputElement).value || "intention";
+  const result = maximumEditDistance(str1, str2);
+  createTable(result.matrix,"#"+str1,"#"+str2);
+};
+
+button = document.querySelector<HTMLButtonElement>("#generate-max");
+if(!button) throw new Error("button not found");
+button.addEventListener("click",generateMax);
 
 
 const defaults = () => {
